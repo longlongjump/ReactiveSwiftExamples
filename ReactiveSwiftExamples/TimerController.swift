@@ -27,23 +27,23 @@ class TimerController: UIViewController {
         super.viewDidLoad()
         
         var timeSignal = timer(1, onScheduler: QueueScheduler.mainQueueScheduler)
-        
         var day_seconds_signal = timeSignal |> map({return $0.timeIntervalSinceDate(startOfTheDay())})
-        
-        timeSignal |> map(toString) |> start(next: { NSLog($0) })
         
         func makeRotation(val: Double) -> NSValue {
             return NSValue(CGAffineTransform: CGAffineTransformMakeRotation(CGFloat(val)))
         }
         
-        var seconds = day_seconds_signal |> map { (($0/30) * 3.1415) - 3.1415/2 } |> map(makeRotation)
-        var minutes = day_seconds_signal |> map { ($0/(60*30)) * 3.1415 - 3.1415/2 } |> map(makeRotation)
-        var hours = day_seconds_signal |> map { (($0/(60*60*6)) * 3.1415) - 3.1415/2 } |> map(makeRotation)
+        func secondsToRadians(secondsPerRound: Int)(seconds : Double) -> Double {
+            return seconds / Double(secondsPerRound/2) * 3.1415 - 3.1415/2;
+        }
         
+        var seconds = day_seconds_signal |> map(secondsToRadians(60)) |> map(makeRotation)
+        var minutes = day_seconds_signal |> map(secondsToRadians(60*60)) |> map(makeRotation)
+        var hours = day_seconds_signal |> map(secondsToRadians(60*60*12)) |> map(makeRotation)
         
-        DynamicProperty(object:self.secondsView, keyPath: "secondsView.transform") <~ seconds |> eraseType;
-        DynamicProperty(object:self.minutesView, keyPath: "minutesView.transform") <~ minutes |> eraseType;
-        DynamicProperty(object:self.hoursView, keyPath: "hoursView.transform") <~ hours |> eraseType;
+        DynamicProperty(object:self.secondsView, keyPath: "transform") <~ seconds |> eraseType;
+        DynamicProperty(object:self.minutesView, keyPath: "transform") <~ minutes |> eraseType;
+        DynamicProperty(object:self.hoursView, keyPath: "transform") <~ hours |> eraseType;
         
         // Do any additional setup after loading the view, typically from a nib.
     }
