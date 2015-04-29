@@ -34,7 +34,7 @@ class TimerController: UIViewController {
         }
         
         func secondsToRadians(secondsPerRound: Int)(seconds : Double) -> Double {
-            return seconds / Double(secondsPerRound/2) * 3.1415 - 3.1415/2;
+            return seconds / Double(secondsPerRound/2) * M_PI - M_PI_2;
         }
         
         var seconds = day_seconds_signal |> map(secondsToRadians(60)) |> map(makeRotation)
