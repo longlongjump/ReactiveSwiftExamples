@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
         <!--Timer Controller-->
@@ -16,12 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eAF-Sr-9ap">
-                                <rect key="frame" x="131" y="40" width="59" height="29"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fdw-sS-1VF">
                                 <rect key="frame" x="60" y="184" width="200" height="200"/>
                                 <subviews>
@@ -50,6 +44,9 @@
                                             <constraint firstAttribute="height" constant="2" id="jLt-lJ-aqE"/>
                                             <constraint firstItem="kTh-Vx-GHt" firstAttribute="leading" secondItem="yjK-cA-S10" secondAttribute="leading" id="xoh-ky-CCu"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.shouldRasterize" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6CS-3O-Np3" userLabel="hours">
                                         <rect key="frame" x="25" y="99" width="150" height="3"/>
@@ -76,6 +73,9 @@
                                             <constraint firstAttribute="width" constant="150" id="le1-u2-Z0u"/>
                                             <constraint firstAttribute="bottom" secondItem="aXT-Go-t48" secondAttribute="bottom" id="usY-rb-u5W"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.shouldRasterize" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qpR-EI-2Sa" userLabel="seconds">
                                         <rect key="frame" x="0.0" y="100" width="200" height="1"/>
@@ -97,6 +97,9 @@
                                             <constraint firstAttribute="height" constant="1" id="hnV-zh-VRy"/>
                                             <constraint firstAttribute="bottom" secondItem="Se3-Fb-cwG" secondAttribute="bottom" id="qxu-0W-CBg"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.shouldRasterize" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -131,25 +134,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="eAF-Sr-9ap" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="51" id="0n6-fD-qyJ"/>
-                            <constraint firstItem="eAF-Sr-9ap" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="BOT-hD-cPF"/>
-                            <constraint firstAttribute="centerY" secondItem="eAF-Sr-9ap" secondAttribute="centerY" id="Kjf-G6-CWE"/>
-                            <constraint firstAttribute="centerX" secondItem="eAF-Sr-9ap" secondAttribute="centerX" id="UvX-Cs-1dX"/>
-                            <constraint firstAttribute="trailing" secondItem="eAF-Sr-9ap" secondAttribute="trailing" constant="89" id="gOt-a4-8SZ"/>
                             <constraint firstAttribute="centerY" secondItem="fdw-sS-1VF" secondAttribute="centerY" id="pHH-4d-kBj"/>
                             <constraint firstAttribute="centerX" secondItem="fdw-sS-1VF" secondAttribute="centerX" id="tNV-7r-lv8"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="0n6-fD-qyJ"/>
-                                <exclude reference="Kjf-G6-CWE"/>
-                                <exclude reference="gOt-a4-8SZ"/>
-                            </mask>
-                        </variation>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="clockLabel" destination="eAF-Sr-9ap" id="w3m-aY-Huu"/>
                         <outlet property="hoursView" destination="6CS-3O-Np3" id="9oU-hr-CbP"/>
                         <outlet property="minutesView" destination="yjK-cA-S10" id="Kol-ua-XQ8"/>
                         <outlet property="secondsView" destination="qpR-EI-2Sa" id="xKd-iF-8yR"/>

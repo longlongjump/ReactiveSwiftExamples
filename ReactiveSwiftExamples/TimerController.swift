@@ -15,44 +15,43 @@ func startOfTheDay() -> NSDate {
     return NSCalendar.currentCalendar().dateFromComponents(comp)!
 }
 
+func secondsToRadians(secondsPerRound: Int)(seconds : Double) -> Double {
+    return seconds / Double(secondsPerRound/2) * M_PI - M_PI_2;
+}
+
 
 class TimerController: UIViewController {
 
     @IBOutlet weak var minutesView: UIView!
     @IBOutlet weak var hoursView: UIView!
     @IBOutlet weak var secondsView: UIView!
-    @IBOutlet weak var clockLabel: UILabel!
+    
+    
+    func setupClock() {
+        // emit every second
+        var timeSignal = timer(1, onScheduler: QueueScheduler.mainQueueScheduler)
+        
+        // get seconds since days start
+        var secondsSinceDayStartSignal = timeSignal |> map({return $0.timeIntervalSinceDate(startOfTheDay())})
+        
+        func radiansToTransform(val: Double) -> NSValue {
+            return NSValue(CGAffineTransform: CGAffineTransformMakeRotation(CGFloat(val)))
+        }
+        
+        var secondsSignal = secondsSinceDayStartSignal |> map(secondsToRadians(60)) |> map(radiansToTransform)
+        var minutesSignal = secondsSinceDayStartSignal |> map(secondsToRadians(60*60)) |> map(radiansToTransform)
+        var hoursSignal = secondsSinceDayStartSignal |> map(secondsToRadians(60*60*12)) |> map(radiansToTransform)
+        
+        DynamicProperty(object:self.secondsView, keyPath: "transform") <~ secondsSignal |> eraseType;
+        DynamicProperty(object:self.minutesView, keyPath: "transform") <~ minutesSignal |> eraseType;
+        DynamicProperty(object:self.hoursView, keyPath: "transform") <~ hoursSignal |> eraseType;
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var timeSignal = timer(1, onScheduler: QueueScheduler.mainQueueScheduler)
-        var day_seconds_signal = timeSignal |> map({return $0.timeIntervalSinceDate(startOfTheDay())})
-        
-        func makeRotation(val: Double) -> NSValue {
-            return NSValue(CGAffineTransform: CGAffineTransformMakeRotation(CGFloat(val)))
-        }
-        
-        func secondsToRadians(secondsPerRound: Int)(seconds : Double) -> Double {
-            return seconds / Double(secondsPerRound/2) * M_PI - M_PI_2;
-        }
-        
-        var seconds = day_seconds_signal |> map(secondsToRadians(60)) |> map(makeRotation)
-        var minutes = day_seconds_signal |> map(secondsToRadians(60*60)) |> map(makeRotation)
-        var hours = day_seconds_signal |> map(secondsToRadians(60*60*12)) |> map(makeRotation)
-        
-        DynamicProperty(object:self.secondsView, keyPath: "transform") <~ seconds |> eraseType;
-        DynamicProperty(object:self.minutesView, keyPath: "transform") <~ minutes |> eraseType;
-        DynamicProperty(object:self.hoursView, keyPath: "transform") <~ hours |> eraseType;
-        
-        // Do any additional setup after loading the view, typically from a nib.
+        setupClock()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 
 }
 
